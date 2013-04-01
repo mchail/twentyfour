@@ -2,10 +2,12 @@
 $ ->
 	run = ->
 		nums = $('#nums').val().split(/[^\d]+/).join(',')
+		$answers = $('.answers')
+		$answers.empty()
+		$answers.append($('<p>').text('calculating...'))
 		$.get('/solve?n=' + nums, (data) ->
-			window.data = data
-			$answers = $('.answers')
 			$answers.empty()
+			window.data = data
 			data.forEach((val) ->
 				$answers.append($('<li>').text(val))
 			)
