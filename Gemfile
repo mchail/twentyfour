@@ -2,10 +2,10 @@ source 'http://rubygems.org'
 
 gem 'sinatra'
 
-gem 'haml'
+gem 'sass'
+gem 'haml', "~> 4.0.1"
 
 gem 'sprockets'
-gem 'sass', :require => 'sass'
 gem 'coffee-script', :require => "coffee_script"
 gem 'uglifier'
 gem 'yui-compressor', :require => "yui/compressor"

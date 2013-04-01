@@ -1,7 +1,7 @@
 $:.unshift File.expand_path("../", __FILE__)
 require 'sinatra'
-require 'haml'
 require 'sass'
+require 'haml'
 require 'sprockets'
 require 'uglifier'
 require "yui/compressor"

@@ -5,4 +5,8 @@ class Application < Sinatra::Base
   get '/' do
     haml :index
   end
+
+  get '/solve'
+  	"yo"
+  end
 end
