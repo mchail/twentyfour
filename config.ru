@@ -5,6 +5,7 @@ require 'haml'
 require 'sprockets'
 require 'uglifier'
 require "yui/compressor"
+require "json"
 
 require "application"
 

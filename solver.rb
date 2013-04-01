@@ -26,17 +26,28 @@ class Solver
 				(0...ops.size).entries.permutation do |order_of_ops|
 					ordered_nums_copy = ordered_nums.clone
 					root = nil
+					puts "checking: #{ordered_nums_copy.zip(symbols).flatten.to_json}"
+					puts order_of_ops.to_json
 					order_of_ops.each do |op_index|
+						puts "index: #{op_index}"
+						puts "state before: #{ordered_nums_copy}"
 						proc = procs[op_index]
 						sym = symbols[op_index]
 						tree = BinaryTree.new(proc, sym, ordered_nums_copy[op_index], ordered_nums_copy[op_index + 1])
-						ordered_nums_copy[op_index] = tree
-						ordered_nums_copy[op_index + 1] = tree
+						old_ref1, ordered_nums_copy[op_index] = ordered_nums_copy[op_index], tree
+						old_ref2, ordered_nums_copy[op_index + 1] = ordered_nums_copy[op_index + 1], tree
+						ordered_nums_copy.each_with_index do |ref, index|
+							if (ref.is_a? BinaryTree) && [old_ref1, old_ref2].include?(ref)
+								ordered_nums_copy[index] = tree
+							end
+						end
 						root = tree
+						puts "state after: #{ordered_nums_copy}"
 					end
 					# puts root
 					answer = root.calc
 					if is_solution?(answer)
+						puts "solution: #{root}"
 						@solutions << root.to_s
 						if @solutions.size >= @MAX_SOLUTIONS
 							return @solutions

@@ -1,3 +1,5 @@
+require "solver"
+
 class Application < Sinatra::Base
   set :root, File.dirname(__FILE__)
   set :logging, true
@@ -6,7 +8,8 @@ class Application < Sinatra::Base
     haml :index
   end
 
-  get '/solve'
-  	"yo"
+  get '/solve' do
+  	nums = params[:n].split(',').map(&:to_i)
+  	Solver.solve(*nums).to_json
   end
 end
