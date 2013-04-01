@@ -1,3 +1,6 @@
+# usage:
+# irb> Solver.solve(8, 8, 3, 3)
+
 class Solver
 
 	def initialize(nums)
@@ -6,27 +9,43 @@ class Solver
 		@ops = initialize_functions
 		@op_orders = (@ops.keys * (@arity - 1)).permutation(@arity - 1).to_a.uniq
 		@solutions = []
+
+		@SOLUTION = 24.0
+		@MAX_SOLUTIONS = 10
 	end
 
 	def solve
-		@nums.permutation do |ordered_nums|
-			# n1, n2, n3, n4 = ordered_nums
-			@op_orders.each do |op_order|
-				procs = op_order.map{|op_name| @ops[op_name][:proc]}
-				symbols = op_order.map{|op_name| @ops[op_name][:symbol]}
-				# puts "evaluating: #{n1} #{s1} #{n2} #{s2} #{n3} #{s3} #{n4}"
-
-				#TODO iterate over all possible orders of operations
-				answer1 = o3.call(o2.call(o1.call(n1, n2), n3), n4) # (((3 * 3) + 3) * 2)
-				@solutions << ['(((', n1, s1, n2, ')', s2, n3, ')', s3, n4, ')'].join if is_solution(answer1)
-				answer2 = o2.call(o1.call(n1, n2), o3.call(n3, n4)) # ((3 + 3) * (2 + 2))
-				@solutions << ['((', n1, s1, n2, ')', s2, '(', n3, s3, n4, '))'].join if is_solution(answer2)
-				answer3 = o1.call(n1, o2.call(n2, o3.call(n3, n4))) # (8 / (3 - (8 / 3)))
-				@solutions << ['(', n1, s1, '(', n2, s2, '(', n3, s3, n4, ')))'].join if is_solution(answer3)
+		# iterate over all unique permutations of given numbers
+		@nums.permutation.to_a.uniq do |ordered_nums|
+			# iterate over all permutations of the operators
+			@op_orders.each do |ops|
+				procs = ops.map{|op_name| @ops[op_name][:proc]}
+				symbols = ops.map{|op_name| @ops[op_name][:symbol]}
+				# iterate over all possible orders of operations
+				(0...ops.size).entries.permutation do |order_of_ops|
+					ordered_nums_copy = ordered_nums.clone
+					root = nil
+					order_of_ops.each do |op_index|
+						proc = procs[op_index]
+						sym = symbols[op_index]
+						tree = BinaryTree.new(proc, sym, ordered_nums_copy[op_index], ordered_nums_copy[op_index + 1])
+						ordered_nums_copy[op_index] = tree
+						ordered_nums_copy[op_index + 1] = tree
+						root = tree
+					end
+					# puts root
+					answer = root.calc
+					if is_solution?(answer)
+						@solutions << root.to_s
+						if @solutions.size >= @MAX_SOLUTIONS
+							return @solutions
+						end
+					end
+				end
 			end
 		end
 
-		puts @solutions.uniq
+		return @solutions
 	end
 
 	private
@@ -62,9 +81,28 @@ class Solver
 		}
 	end
 
-	def is_solution(solution)
-		return (24.0 - solution.to_f).abs < 0.000001
+	def is_solution?(solution)
+		return (@SOLUTION - solution.to_f).abs < 0.000001
 	rescue
 		false
+	end
+
+	def self.solve(*nums)
+		Solver.new(nums).solve
+	end
+end
+
+class BinaryTree
+	attr_accessor :left, :right, :proc, :sym
+	def initialize(proc = nil, sym = nil, left = nil, right = nil)
+		self.proc, self.sym, self.left, self.right = proc, sym, left, right
+	end
+	def calc
+		left_operand = (left.is_a? BinaryTree) ? left.calc : left.to_f
+		right_operand = (right.is_a? BinaryTree) ? right.calc : right.to_f
+		return proc.call(left_operand, right_operand)
+	end
+	def to_s
+		return "(#{left.to_s} #{sym} #{right.to_s})"
 	end
 end
