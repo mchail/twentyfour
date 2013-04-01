@@ -12,6 +12,7 @@ class Solver
 
 		@SOLUTION = 24.0
 		@MAX_SOLUTIONS = 10
+		@TOLERANCE = 0.000001
 	end
 
 	def solve
@@ -82,7 +83,7 @@ class Solver
 	end
 
 	def is_solution?(solution)
-		return (@SOLUTION - solution.to_f).abs < 0.000001
+		return (@SOLUTION - solution.to_f).abs < @TOLERANCE
 	rescue
 		false
 	end
