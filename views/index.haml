@@ -1,14 +1,18 @@
 !!! 5
 %html{ :lang => "en"}
-  %head
-    %title= "Sinatra Bootstrap"
-    %link{ :charset => "utf-8", :href => "/assets/application.css", 
-           :media => "screen", :rel => "stylesheet", :type => "text/css" }
-  %body
-    %header
-      %h1 Sinatra Bootstrap
+	%head
+		%title= "The TwentyFournicator"
+		%link{ :charset => "utf-8", :href => "/assets/application.css", 
+					 :media => "screen", :rel => "stylesheet", :type => "text/css" }
+	%body
+		%header
+			%h1 The TwentyFournicator
 
-    %section{:id => 'debug'}
-      %p Sinatra, HAML, SASS, Coffeescript, jQuery, Underscore, Sprockets, Asset Packaging, Heroku, Pry
- 
-    %script{:type => "text/javascript", :src  => "assets/application.js"}
+		.input
+			%form
+				%input#nums{type: :text}
+				%input#submit{type: :submit}
+		%ul.answers
+
+		%script{type: 'text/javascript', src: "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"}
+		%script{:type => "text/javascript", :src  => "assets/application.js"}

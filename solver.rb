@@ -41,7 +41,7 @@ class Solver
 					end
 					answer = root.calc
 					if is_solution?(answer)
-						puts "solution: #{root}"
+						# puts "solution: #{root}"
 						@solutions << root.to_s
 						if @solutions.size >= @MAX_SOLUTIONS
 							return @solutions
