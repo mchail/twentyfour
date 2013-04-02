@@ -1,6 +1,8 @@
 # usage:
 # irb> Solver.solve(8, 8, 3, 3)
 
+require 'set'
+
 class Solver
 
 	def initialize(nums)
@@ -8,7 +10,7 @@ class Solver
 		@arity = nums.size
 		@ops = initialize_functions
 		@op_orders = (@ops.keys * (@arity - 1)).permutation(@arity - 1).to_a.uniq
-		@solutions = []
+		@solutions = Set.new
 
 		@SOLUTION = 24.0
 		@MAX_SOLUTIONS = 10

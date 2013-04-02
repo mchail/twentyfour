@@ -11,6 +11,10 @@ class Application < Sinatra::Base
 	get '/solve' do
 		nums = params[:n].split(',').map(&:to_i)
 		content_type :json
-		Solver.solve(*nums).to_json
+		if nums.size == 0
+			[].to_json
+		else
+			Solver.solve(*nums).to_a.to_json
+		end
 	end
 end

@@ -12,3 +12,5 @@ gem 'yui-compressor', :require => "yui/compressor"
 gem 'therubyracer'
 
 gem 'json'
+
+gem 'rack-timeout'

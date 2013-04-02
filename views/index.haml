@@ -1,18 +1,50 @@
 !!! 5
 %html{ :lang => "en"}
 	%head
-		%title= "The TwentyFournicator"
+		%title= "24 challenge solver"
 		%link{ :charset => "utf-8", :href => "/assets/application.css", 
 					 :media => "screen", :rel => "stylesheet", :type => "text/css" }
 	%body
-		%header
-			%h1 The TwentyFournicator
+		%a{href: 'https://github.com/mchail/twentyfour', target: :_blank}
+			%img{style: 'position: absolute; top: 0; right: 0; border: 0;', src: 'https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png', alt: 'Fork me on Github'}
+		#header_wrap.outer
+			%header.inner
+				%h1#project_title
+					24 challenge solver
+				%h2#project_tagline
+					Solve the general case of the 
+					%a{href: 'http://en.wikipedia.org/wiki/24_Game', target: :_blank} 24 challenge
+					puzzle
 
-		.input
-			%form
-				%input#nums{type: :text}
-				%input#submit{type: :submit}
-		%ul.answers
+		#main_content_wrap.outer
+			#main_content.inner
+				%p.instructions
+					%p
+						The general case of the 24 challenge problem may be stated:
+						%em
+							Combine n integers greater than zero using arithmetic operators to produce an expression that evaluates to m.
+					%p
+						This tool works well when
+						%strong n
+						is less than or equal to 6, and will most likely fail (after 15 seconds) with more numbers. You will be shown a maximum of 10 solutions; each solution will have a unique number-permutation/operator-permutation/operator-preference combination. Suggestions on improving
+						%a{href: 'https://github.com/mchail/twentyfour/blob/master/solver.rb', target: :_blank} the algorithm
+						are welcome!
+					%p
+						Enter a space-separated list of numbers into the input box below, and click 'Solve'.
+					%p
+						%a#example{href: '#'} Try an example
+
+				.input
+					%form
+						%input#nums{type: :text}
+						%input#submit.btn{type: :submit, value: :Solve}
+				%ul#answers
+
+				.footer
+					%small
+						2013 /
+						%a{href: "http://www.mchail.com", target: :_blank} mchail
+				%div{style: "clear: both"}
 
 		%script{type: 'text/javascript', src: "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"}
 		%script{:type => "text/javascript", :src  => "assets/application.js"}
