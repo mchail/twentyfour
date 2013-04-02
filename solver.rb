@@ -9,7 +9,7 @@ class Solver
 		@nums = nums
 		@arity = nums.size
 		@ops = initialize_functions
-		@op_orders = (@ops.keys * (@arity - 1)).permutation(@arity - 1).to_a.uniq
+		@op_orders = op_orders(@ops.keys, @arity - 1)
 		@solutions = Set.new
 
 		@SOLUTION = 24.0
@@ -93,6 +93,17 @@ class Solver
 		return (@SOLUTION - solution.to_f).abs < @TOLERANCE
 	rescue
 		false
+	end
+
+	def op_orders(ops, num_to_choose)
+		results = []
+		radix = ops.size
+		min = 0
+		max = ((ops.size - 1).to_s * num_to_choose).to_i(radix)
+		(min..max).each do |num|
+			results << ("0" * num_to_choose + num.to_s(radix)).slice(num_to_choose * -1, num_to_choose).split('').map{|i| ops[i.to_i]}
+		end
+		return results
 	end
 
 	def self.solve(*nums)
